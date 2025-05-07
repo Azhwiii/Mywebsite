@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Azhwiii Website</title>
+  <style>
+    /* Reset and box sizing */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    html, body {
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0a0a0f;
+      color: #cfd8dc;
+      min-height: 100vh;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    a {
+      color: #3cf2f2;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    a:hover,
+    a:focus {
+      color: #14fafa;
+    }
+    img {
+      display: block;
+      max-width: 100%;
+      border-radius: 12px;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    /* Header fixed top with transparent background that darkens on scroll */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      justify-content: center; /* Align nav on right */
+      align-items: center;
+      padding: 12px 30px;
+      background: rgba(10,10,15,0.4);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #111;
+      z-index: 1000;
+      transition: background 0.3s ease;
+    }
+    header.scrolled {
+      background: rgba(10,10,15,0.95);
+    }
+    /* Removed animation and text from header h1 */
+    header h1 {
+      display: none; /* Hide the header text */
+    }
+
+    /* Add animation to hero h2 */
+    .hero h2 {
+      font-weight: 900;
+      font-size: 3.8rem;
+      color: #3cf2f2;
+      letter-spacing: 3.5px;
+      text-shadow: 0 0 15px #3cf2f2cc;
+      animation: fontCycle 12s linear infinite;
+    }
+    /* Font cycle keyframes */
+    @keyframes fontCycle {
+      0% {
+        font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      25% {
+        font-family: 'Courier New', Courier, monospace;
+      }
+      50% {
+        font-family: 'Georgia', serif;
+      }
+      75% {
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+      }
+      100% {
+        font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+    }
+
+    /* Navigation */
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 28px;
+    }
+    nav ul li a {
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 8px 0;
+      position: relative;
+    }
+    nav ul li a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #14fafa;
+      transition: width 0.4s ease;
+      border-radius: 1px;
+    }
+    nav ul li a:hover::after,
+    nav ul li a.active::after {
+      width: 100%;
+    }
+
+    /* Hamburger menu for mobile */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .hamburger div {
+      width: 28px;
+      height: 3px;
+      background: #3cf2f2;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Hero Section with layered parallax circles */
+    .hero {
+      position: relative;
+      height: 600px;
+      overflow: hidden;
+      text-align: center;
+      color: #3cf2f2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 20px;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-top: 16px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-shadow: 0 0 10px #14fafaaa;
+    }
+    .btn-hero {
+      margin-top: 38px;
+      background: #14fafa;
+      padding: 14px 44px;
+      border-radius: 40px;
+      font-weight: 800;
+      color: #000;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 0 30px #14fafaaa;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+    .btn-hero:hover,
+    .btn-hero:focus {
+      background: #0de1e1;
+      box-shadow: 0 0 40px #0de1e1cc;
+    }
+
+    /* Layered parallax circles in hero background */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, #0de1e1cc, transparent 60%);
+      filter: drop-shadow(0 0 6px #0de1e1);
+      pointer-events: none;
+    }
+    .c1 {
+      width: 250px; height: 250px;
+      top: 20%; left: 25%;
+      opacity: 0.7;
+    }
+    .c2 {
+      width: 180px; height: 180px;
+      top: 50%; left: 70%;
+      opacity: 0.6;
+    }
+    .c3 {
+      width: 350px; height: 350px;
+      top: 40%; left: 40%;
+      opacity: 0.3;
+    }
+    .c4 {
+      width: 120px; height: 120px;
+      top: 75%; left: 20%;
+      opacity: 0.5;
+    }
+
+    /* Diagonal angled sections */
+    section {
+      padding: 80px 0 100px;
+      position: relative;
+      overflow: visible;
+    }
+    /* Shape before the section to create diagonal effect */
+    section:before {
+      content: "";
+      position: absolute;
+      top: -60px;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      transform-origin: top left;
+      transform: skewY(-6deg);
+      z-index: -1;
+      background: #0a0a0f;
+    }
+    /* Alternate sections with different background and skew angle */
+    #about:before { background: #0a0a0f; }
+    #skills:before {
+      background: #121a24;
+      transform: skewY(6deg);
+      top: -80px;
+      height: 140px;
+    }
+    #projects:before {
+      background: #0a0a0f;
+      transform: skewY(-6deg);
+      top: -60px;
+      height: 120px;
+    }
+    #experience:before {
+      background: #121a24;
+      transform: skewY(6deg);
+      top: -80px;
+      height: 140px;
+    }
+    #contact:before {
+      background: #161c27;
+      transform: skewY(-6deg);
+      top: -60px;
+      height: 120px;
+    }
+
+    /* Section headings */
+    h3 {
+      font-size: 2.8rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-align: center;
+      margin-bottom: 48px;
+      color: #3cf2f2;
+      text-shadow: 0 0 8px #14fafa99;
+    }
+
+    /* About Section */
+    #about .content {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      gap: 44px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      color: #c0d8dc;
+    }
+    #about .content img {
+      max-width: 280px;
+      border-radius: 24px;
+      box-shadow: 0 0 30px #0de1e1aa;
+      transition: transform 0.3s ease;
+    }
+    #about .content img:hover,
+    #about .content img:focus {
+      transform: scale(1.07);
+      box-shadow: 0 0 40px #14fafa;
+    }
+    #about .text {
+      flex: 1 1 380px;
+      font-size: 1.15rem;
+      line-height: 1.55;
+    }
+
+    /* Unique skill orb field */
+    #skills {
+      color: #c0d9df;
+    }
+    #skills .orb-field {
+      position: relative;
+      width: 100%;
+      max-width: 720px;
+      height: 360px;
+      margin: 0 auto;
+      backdrop-filter: brightness(0.8);
+    }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: default;
+      user-select: none;
+      color: #0a0a0f;
+      font-weight: 700;
+      font-size: 1.05rem;
+      background: #14fafa;
+      box-shadow: 0 0 15px #14fafaaa;
+      transition: box-shadow 0.3s ease;
+    }
+    .orb:hover,
+    .orb:focus {
+      box-shadow: 0 0 30px #00ffff;
+    }
+
+    /* Positions and sizes of orbs */
+    .orb1 {
+      width: 90px; height: 90px;
+      top: 10%; left: 50%;
+      transform: translate(-50%, 0);
+      animation: floatSlow 6s ease-in-out infinite;
+    }
+    .orb2 {
+      width: 75px; height: 75px;
+      top: 65%; left: 20%;
+      animation: floatFast 4s ease-in-out infinite;
+    }
+    .orb3 {
+      width: 110px; height: 110px;
+      top: 55%; left: 80%;
+      animation: floatSlow 5.5s ease-in-out infinite;
+    }
+    .orb4 {
+      width: 70px; height: 70px;
+      top: 30%; left: 30%;
+      animation: floatFast 4.5s ease-in-out infinite;
+    }
+    .orb5 {
+      width: 85px; height: 85px;
+      top: 75%; left: 60%;
+      animation: floatSlow 5.8s ease-in-out infinite;
+    }
+
+    /* Orb float animation */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-15px); }
+    }
+    @keyframes floatFast {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Projects section with tilt effect cards */
+    #projects .projects-grid {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+      perspective: 900px;
+    }
+    .project-card {
+      position: relative;
+      width: 300px;
+      background: #121a24;
+      border-radius: 28px;
+      box-shadow: 0 0 40px #14fafa66;
+      cursor: pointer;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: box-shadow 0.3s ease;
+    }
+    .project-card:hover,
+    .project-card:focus-within {
+      box-shadow: 0 0 60px #0efafaee;
+    }
+    .project-image-wrapper {
+      overflow: hidden;
+    }
+    .project-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      pointer-events: none;
+      transition: transform 0.3s ease;
+    }
+    .project-card:hover .project-image,
+    .project-card:focus-within .project-image {
+      transform: scale(1.05);
+    }
+    .project-content {
+      padding: 18px 22px 24px;
+      color: #aad8de;
+    }
+    .project-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #14fafa;
+      margin-bottom: 8px;
+    }
+    .project-desc {
+      font-size: 1rem;
+      line-height: 1.3;
+    }
+
+    /* Experience Horizontal scroll timeline with drag */
+    #experience {
+      overflow-x: auto;
+      padding-bottom: 20px;
+      max-width: 100vw;
+    }
+    #experience h3 {
+      margin-bottom: 38px;
+    }
+    .xp-timeline {
+      display: flex;
+      gap: 32px;
+      padding-bottom: 16px;
+      scrollbar-width: thin;
+      scrollbar-color: #14fafa44 transparent;
+    }
+    /* Webkit scrollbar */
+    .xp-timeline::-webkit-scrollbar {
+      height: 8px;
+    }
+    .xp-timeline::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .xp-timeline::-webkit-scrollbar-thumb {
+      background-color: #14fafa55;
+      border-radius: 10px;
+    }
+    .xp-item {
+      background: #121a24;
+      flex: 0 0 280px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 0 28px #14fafa66;
+      user-select: none;
+    }
+    .xp-item h4 {
+      font-weight: 900;
+      font-size: 1.3rem;
+      color: #0ff9fc;
+      margin-bottom: 10px;
+    }
+    .xp-item time {
+      font-size: 0.9rem;
+      font-style: italic;
+      display: block;
+      margin-bottom: 14px;
+      color: #82d4d7;
+    }
+    .xp-item p {
+      font-size: 1rem;
+      line-height: 1.4;
+      color: #b1ced1;
+    }
+
+    /* Contact section with clean minimal style */
+    #contact {
+      background: #0a0a0f;
+      text-align: center;
+      padding-top: 60px;
+      padding-bottom: 100px;
+    }
+    #contact p {
+      font-size: 1.25rem;
+      margin-bottom: 24px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #aad8de;
+    }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      font-size: 2rem;
+      user-select: none;
+    }
+    .contact-links a {
+      color: #14fafa;
+      transition: color 0.3s ease;
+    }
+    .contact-links a:hover,
+    .contact-links a:focus {
+      color: #0ff9fc;
+      text-shadow: 0 0 12px #0ff9fcaa;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 28px 12px;
+      border-top: 1px solid #14222b;
+      font-size: 0.9rem;
+      color: #37474f;
+      user-select: none;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      header {
+        padding: 12px 18px;
+      }
+      nav ul {
+        gap: 18px;
+      }
+      .hero h2 {
+        font-size: 2.8rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+      }
+      #about .content {
+        flex-direction: column;
+        gap: 28px;
+      }
+      #skills .orb-field {
+        height: 300px;
+      }
+      #projects .projects-grid {
+        justify-content: center;
+      }
+    }
+    @media (max-width: 480px) {
+      nav ul {
+        display: none;
+      }
+      .hamburger {
+        display: flex;
+      }
+      /* Expand nav on hamburger toggle */
+      nav ul.open {
+        display: flex !important;
+        position: fixed;
+        top: 56px;
+        right: 0;
+        background: #0a0a0f;
+        height: calc(100vh - 56px);
+        width: 240px;
+        flex-direction: column;
+        padding: 28px 20px;
+        gap: 24px;
+        box-shadow: -4px 0 20px #14fafa44;
+        border-radius: 0 0 0 20px;
+        z-index: 1999;
+      }
+      nav ul li a {
+        font-size: 1.4rem;
+        font-weight: 700;
+        padding: 10px 0;
+        display: block;
+      }
+      #experience {
+        padding-bottom: 40px;
+      }
+      #skills .orb-field {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 tabindex="0" aria-label="Portfolio header title"></h1>
+    <nav>
+      <ul id="nav-list" role="menubar">
+        <li><a href="#about" class="active" role="menuitem" tabindex="0">About Me</a></li>
+        <li><a href="#skills" role="menuitem" tabindex="-1">Skills</a></li>
+        <li><a href="#projects" role="menuitem" tabindex="-1">Projects</a></li>
+        <li><a href="#contact" role="menuitem" tabindex="-1">Contact</a></li>
+      </ul>
+      <div class="hamburger" id="hamburger" aria-controls="nav-list" aria-expanded="false" role="button" tabindex="0" aria-label="Toggle navigation menu">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero" role="banner" aria-label="Introduction with animated background">
+    <div aria-live="polite" aria-atomic="true">
+      <h2 tabindex="0">Hi, I&apos;m Aziz Hadi Wicaksono</h2>
+      <p tabindex="0">Creative Developer specializing in captivating digital experiences</p>
+      <button class="btn-hero" onclick="scrollToSection('projects')" aria-label="View my projects">View Projects</button>
+      <!-- Parallax circles -->
+      <div class="circle c1" aria-hidden="true"></div>
+      <div class="circle c2" aria-hidden="true"></div>
+      <div class="circle c3" aria-hidden="true"></div>
+      <div class="circle c4" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <main class="container" role="main">
+    <section id="about" aria-label="About me section" tabindex="0">
+      <h3>About Me</h3>
+      <div class="content">
+        <img src="img/about.jpg" alt="Portrait photo of your name" />
+        <div class="text">
+          <p>I am a student at SMKN 2 Depok with a strong passion for learning and self-development, especially in my area of expertise. I am known as a disciplined and responsible individual who can work both independently and as part of a team. I am always eager to improve my academic and non-academic skills, and I am ready to face future challenges in the professional and industrial world.</p>
+          <p>My approach is always to deliver quality, usability, and delightful experience in projects I undertake</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" aria-label="Interactive skills section" tabindex="0">
+      <h3>Skills</h3>
+      <div class="orb-field" role="list" aria-label="Listed programming and technology skills as floating orbs">
+        <div class="orb orb1" role="listitem" tabindex="0" aria-label="Css skill">CSS</div>
+        <div class="orb orb2" role="listitem" tabindex="0" aria-label="React skill">React</div>
+        <div class="orb orb3" role="listitem" tabindex="0" aria-label="PHP skill">PHP</div>
+        <div class="orb orb4" role="listitem" tabindex="0" aria-label="JavaScript skill">JS</div>
+        <div class="orb orb5" role="listitem" tabindex="0" aria-label="Python skill">Python</div>
+      </div>
+    </section>
+
+    <section id="projects" aria-label="Projects section with interactive cards" tabindex="0">
+      <h3>Projects</h3>
+      <div class="projects-grid" role="list" aria-live="polite">
+        <a href="https://website-promosi-kangen-waterr.vercel.app/" target="_blank" rel="noopener noreferrer" role="listitem" aria-label="Project One: Responsive React Website" tabindex="0" class="project-card">
+          <div class="project-image-wrapper">
+            <img src="img/project1.png" alt="Screenshot of Project One" class="project-image" />
+          </div>
+          <div class="project-content">
+            <h4 class="project-title">Project One</h4>
+            <p class="project-desc">Kangen Water website designed to boost product sales through effective digital media marketing</p>
+          </div>
+        </a>
+        <a href="https://azhwiii-store.vercel.app/" target="_blank" rel="noopener noreferrer" role="listitem" aria-label="Project Two: E-commerce site using Node.js" tabindex="0" class="project-card">
+          <div class="project-image-wrapper">
+            <img src="img/project2.png" alt="Screenshot of Project Two" class="project-image" />
+          </div>
+          <div class="project-content">
+            <h4 class="project-title">Project Two</h4>
+            <p class="project-desc">Azhwi is an online game top up shop with friendly prices and fast service.</p>
+          </div>
+        </a>
+        <a href="https://github.com/yourusername/project3" target="_blank" rel="noopener noreferrer" role="listitem" aria-label="Project Three: Custom portfolio generator" tabindex="0" class="project-card">
+          <div class="project-image-wrapper">
+            <img src="img/project3.png" class="project-image" />
+          </div>
+          <div class="project-content">
+            <h4 class="project-title">Project Three</h4>
+            <p class="project-desc">a website that introduces myself to all of you</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section id="contact" aria-label="Contact section" tabindex="0">
+      <h3>Contact Me</h3>
+      <p>Let’s connect! Reach out via email or my social profiles below</p>
+      <div class="contact-links" role="list" aria-label="Social and email links">
+        <a href="mailto:azizhadiw123@gmail.com" role="listitem" aria-label="Email address" tabindex="0" title="Email">📧</a>
+        <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" role="listitem" aria-label="LinkedIn profile" tabindex="0" title="LinkedIn">🔗</a>
+        <a href="https://github.com/Azhwiii" target="_blank" rel="noopener noreferrer" role="listitem" aria-label="GitHub profile" tabindex="0" title="GitHub">🐙</a>
+        <a href="https://www.instagram.com/azhwiii__?igsh=MXdzY2JmY2tldnBvNQ== target="_blank" rel="noopener noreferrer" role="listitem" aria-label="Instagram" tabindex="0" title="Instagram">📷</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Aziz Hadi Wicaksono - All rights reserved
+  </footer>
+
+  <script>
+    // Smooth scroll for buttons and nav
+    function scrollToSection(id){
+      document.getElementById(id).scrollIntoView({behavior:'smooth'});
+    }
+
+    // Hamburger toggle for mobile nav
+    const hamburger = document.getElementById('hamburger');
+    const navList = document.getElementById('nav-list');
+
+    function toggleMenu() {
+      const expanded = hamburger.getAttribute('aria-expanded') === 'true' || false;
+      hamburger.setAttribute('aria-expanded', !expanded);
+      navList.classList.toggle('open');
+    }
+    hamburger.addEventListener('click', toggleMenu);
+    hamburger.addEventListener('keydown', e => {
+      // Toggle on Enter or Space keys for accessibility
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleMenu();
+      }
+    });
+
+    // Close mobile nav on nav link click
+    navList.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navList.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', false);
+      });
+    });
+
+    // Highlight active nav item on scroll
+    const sections = document.querySelectorAll('main section[id]');
+    window.addEventListener('scroll', () => {
+      let scrollPos = window.pageYOffset + 80;
+      sections.forEach(sec => {
+        if(scrollPos >= sec.offsetTop && scrollPos< sec.offsetTop + sec.offsetHeight){
+          navList.querySelectorAll('a').forEach(link => link.classList.remove('active'));
+          let activeLink = navList.querySelector(`a[href="#${sec.id}"]`);
+          if(activeLink) activeLink.classList.add('active');
+        }
+      });
+    });
+
+    // Project Cards Tilt effect
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width/2;
+        const centerY = rect.height/2;
+        const deltaX = (x - centerX) / centerX;
+        const deltaY = (y - centerY) / centerY;
+        // Rotate max 10 deg
+        card.style.transform = `rotateX(${deltaY * -10}deg) rotateY(${deltaX * 10}deg)`;
+      });
+      card.addEventListener('mouseleave', e => {
+        card.style.transform = `rotateX(0) rotateY(0)`;
+      });
+    });
+
+    // Experience horizontal scroll drag handling (mouse and touch)
+    const timeline = document.querySelector('.xp-timeline');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    timeline.addEventListener('mousedown', (e) => {
+      isDown = true;
+      timeline.classList.add('active');
+      startX = e.pageX - timeline.offsetLeft;
+      scrollLeft = timeline.scrollLeft;
+    });
+    timeline.addEventListener('mouseleave', () => {
+      isDown = false;
+      timeline.classList.remove('active');
+    });
+    timeline.addEventListener('mouseup', () => {
+      isDown = false;
+      timeline.classList.remove('active');
+    });
+    timeline.addEventListener('mousemove', (e) => {
+      if(!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - timeline.offsetLeft;
+      const walk = (x - startX) * 2; //scroll-fast
+      timeline.scrollLeft = scrollLeft - walk;
+    });
+
+    // Touch events for timeline scrolling (mobile)
+    let touchStartX = 0;
+    let touchScrollLeft = 0;
+    timeline.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].pageX - timeline.offsetLeft;
+      touchScrollLeft = timeline.scrollLeft;
+    });
+    timeline.addEventListener('touchmove', e => {
+      const x = e.touches[0].pageX - timeline.offsetLeft;
+      const walk = (x - touchStartX) * 2;
+      timeline.scrollLeft = touchScrollLeft - walk;
+    });
+
+    // Hero BackgroundI
+ // Hero Background Parallax Circles - subtle movement with mouse
+  const circles = document.querySelectorAll('.circle');
+  document.querySelector('.hero').addEventListener('mousemove', e => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left; 
+    const y = e.clientY - rect.top;
+
+    circles.forEach((circle, i) => {
+      // Different speed for each circle
+      const speed = (i+1) * 0.03;
+      const moveX = (x - rect.width/2) * speed;
+      const moveY = (y - rect.height/2) * speed;
+      circle.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+    });
+  });
+</script>
